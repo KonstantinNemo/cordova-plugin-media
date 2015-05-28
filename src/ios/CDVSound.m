@@ -24,6 +24,7 @@
 #define HTTP_SCHEME_PREFIX @"http://"
 #define HTTPS_SCHEME_PREFIX @"https://"
 #define CDVFILE_PREFIX @"cdvfile://"
+#define FILE_SCHEME_PREFIX @"file://"
 #define RECORDING_WAV @"wav"
 
 @implementation CDVSound
@@ -96,6 +97,9 @@
         if (filePath == nil) {
             resourceURL = [NSURL URLWithString:resourcePath];
         }
+    } else if ([resourcePath hasPrefix:FILE_SCHEME_PREFIX]) {
+        resourceURL = [NSURL URLWithString:resourcePath];
+        filePath = [resourceURL path];
     } else {
         // attempt to find file path in www directory or LocalFileSystem.TEMPORARY directory
         filePath = [self.commandDelegate pathForResource:resourcePath];
